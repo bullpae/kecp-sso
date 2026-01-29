@@ -3,7 +3,7 @@
     <#if section = "header">
         <#-- K-ECP 로고 -->
         <div class="kecp-logo-container">
-            <img src="${url.resourcesPath}/img/kecp-logo.png" alt="K-ECP" class="kecp-logo" />
+            <img src="${url.resourcesPath}/img/kecp-logo.svg" alt="K-ECP KDN Energy Cloud Platform" class="kecp-logo" />
         </div>
     <#elseif section = "form">
         <div id="kc-form">
