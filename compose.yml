@@ -41,6 +41,10 @@ services:
       # Features
       KC_HEALTH_ENABLED: "true"
       KC_METRICS_ENABLED: "true"
+      # Theme 캐싱 비활성화 (개발용)
+      KC_SPI_THEME_STATIC_MAX_AGE: "-1"
+      KC_SPI_THEME_CACHE_THEMES: "false"
+      KC_SPI_THEME_CACHE_TEMPLATES: "false"
       # Admin
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin123}
