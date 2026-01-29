@@ -30,19 +30,23 @@
     "realm": [
       {
         "name": "admin",
-        "description": "시스템 관리자 - 모든 권한"
+        "description": "시스템 관리자 - 시스템 전반 설정 및 모니터링"
       },
       {
         "name": "operator",
-        "description": "운영자 - 서비스 운영 권한"
+        "description": "운영자(접수자) - 요청 분류 및 담당자 지정"
       },
       {
         "name": "partner",
-        "description": "파트너사 - 제한된 관리 권한"
+        "description": "파트너(담당자) - 요청 처리 및 결과 입력"
+      },
+      {
+        "name": "customer_admin",
+        "description": "고객 관리자 - 고객사 사용자 관리, 요청 모니터링"
       },
       {
         "name": "member",
-        "description": "일반 회원 - 기본 권한"
+        "description": "일반 회원(고객) - 요청 생성/조회, 공지 열람"
       }
     ]
   },
@@ -58,6 +62,10 @@
     {
       "name": "Partners",
       "realmRoles": ["partner"]
+    },
+    {
+      "name": "Customer Admins",
+      "realmRoles": ["customer_admin"]
     },
     {
       "name": "Members",
@@ -201,6 +209,54 @@
         }
       ],
       "realmRoles": ["admin"]
+    },
+    {
+      "username": "testoperator@kecp.kdn.com",
+      "email": "testoperator@kecp.kdn.com",
+      "firstName": "테스트",
+      "lastName": "운영자",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["operator"]
+    },
+    {
+      "username": "testpartner@kecp.kdn.com",
+      "email": "testpartner@kecp.kdn.com",
+      "firstName": "테스트",
+      "lastName": "담당자",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["partner"]
+    },
+    {
+      "username": "testcustadmin@kecp.kdn.com",
+      "email": "testcustadmin@kecp.kdn.com",
+      "firstName": "테스트",
+      "lastName": "고객관리자",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["customer_admin"]
     },
     {
       "username": "testuser@kecp.kdn.com",
