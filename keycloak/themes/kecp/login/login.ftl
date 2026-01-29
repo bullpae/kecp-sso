@@ -1,7 +1,10 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=true; section>
     <#if section = "header">
-        ${msg("loginAccountTitle")}
+        <#-- K-ECP 로고 -->
+        <div class="kecp-logo-container">
+            <img src="${url.resourcesPath}/img/kecp-logo.png" alt="K-ECP" class="kecp-logo" />
+        </div>
     <#elseif section = "form">
         <div id="kc-form">
             <div id="kc-form-wrapper">

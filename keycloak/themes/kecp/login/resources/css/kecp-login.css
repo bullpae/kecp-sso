@@ -47,15 +47,20 @@ body.login-pf,
   padding: 2.5rem;
 }
 
+/* K-ECP 로고 */
+.kecp-logo-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.kecp-logo {
+  height: 40px;
+  width: auto;
+}
+
 /* 제목 */
 #kc-page-title {
-  color: var(--kecp-gray-800);
-  font-weight: 700;
-  font-size: 1.75rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  border: none;
-  padding: 0;
+  display: none;
 }
 
 /* 언어 선택 숨기기 */
