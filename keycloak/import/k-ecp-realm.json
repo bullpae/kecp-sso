@@ -1,0 +1,222 @@
+{
+  "realm": "k-ecp",
+  "displayName": "K-ECP Portal",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 5,
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 28800,
+  "offlineSessionIdleTimeout": 2592000,
+  "accessCodeLifespan": 60,
+  "accessCodeLifespanUserAction": 300,
+  "accessCodeLifespanLogin": 1800,
+  "actionTokenGeneratedByAdminLifespan": 43200,
+  "actionTokenGeneratedByUserLifespan": 300,
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "시스템 관리자 - 모든 권한"
+      },
+      {
+        "name": "operator",
+        "description": "운영자 - 서비스 운영 권한"
+      },
+      {
+        "name": "partner",
+        "description": "파트너사 - 제한된 관리 권한"
+      },
+      {
+        "name": "member",
+        "description": "일반 회원 - 기본 권한"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "name": "K-ECP Admins",
+      "realmRoles": ["admin"]
+    },
+    {
+      "name": "Operators",
+      "realmRoles": ["operator"]
+    },
+    {
+      "name": "Partners",
+      "realmRoles": ["partner"]
+    },
+    {
+      "name": "Members",
+      "realmRoles": ["member"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "k-ecp-main",
+      "name": "K-ECP 메인 포털",
+      "description": "K-ECP 메인 서비스 (user-console)",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "https://kecp.kdn.com/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8080",
+        "https://kecp.kdn.com"
+      ],
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ]
+    },
+    {
+      "clientId": "k-ecp-marketplace",
+      "name": "K-ECP 마켓플레이스",
+      "description": "마켓플레이스 서비스 (Flask)",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:5000/*",
+        "https://marketplace.kecp.kdn.com/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5000",
+        "https://marketplace.kecp.kdn.com"
+      ],
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ]
+    },
+    {
+      "clientId": "k-ecp-support",
+      "name": "K-ECP 고객센터",
+      "description": "고객센터 서비스 (KustHub - React SPA)",
+      "enabled": true,
+      "redirectUris": [
+        "http://localhost:3001/*",
+        "https://support.kecp.kdn.com/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3001",
+        "https://support.kecp.kdn.com"
+      ],
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "fullScopeAllowed": true,
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ]
+    },
+    {
+      "clientId": "k-ecp-kohub",
+      "name": "K-ECP 운영 플랫폼",
+      "description": "운영 플랫폼 서비스 (Kohub - React SPA)",
+      "enabled": true,
+      "redirectUris": [
+        "http://localhost:3002/*",
+        "https://kohub.kecp.kdn.com/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3002",
+        "https://kohub.kecp.kdn.com"
+      ],
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "fullScopeAllowed": true,
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "testadmin@kecp.kdn.com",
+      "email": "testadmin@kecp.kdn.com",
+      "firstName": "테스트",
+      "lastName": "관리자",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"]
+    },
+    {
+      "username": "testuser@kecp.kdn.com",
+      "email": "testuser@kecp.kdn.com",
+      "firstName": "테스트",
+      "lastName": "사용자",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test1234",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["member"]
+    }
+  ]
+}

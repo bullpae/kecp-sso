@@ -1,0 +1,26 @@
+# 환경 변수 (비밀 정보)
+.env
+.env.local
+.env.*.local
+
+# SSL 인증서
+keycloak/certs/*.pem
+keycloak/certs/*.key
+keycloak/certs/*.crt
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 백업 파일
+*.bak
+*.backup
+
+# 로그
+*.log
+logs/
