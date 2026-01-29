@@ -1,9 +1,8 @@
-/* K-ECP 로그인 테마 - kecp.kdn.com 동일 스타일 */
+/* K-ECP 로그인 테마 - 깔끔한 디자인 */
 
 :root {
   --kecp-primary: #3b82f6;
   --kecp-primary-dark: #2563eb;
-  --kecp-primary-light: #60a5fa;
   --kecp-gray-50: #f9fafb;
   --kecp-gray-100: #f3f4f6;
   --kecp-gray-200: #e5e7eb;
@@ -13,10 +12,9 @@
   --kecp-gray-600: #4b5563;
   --kecp-gray-700: #374151;
   --kecp-gray-800: #1f2937;
-  --kecp-gray-900: #111827;
 }
 
-/* 전체 배경 - 밝은 회색 */
+/* 전체 배경 */
 body.login-pf,
 .login-pf-page {
   background: var(--kecp-gray-100) !important;
@@ -26,30 +24,36 @@ body.login-pf,
   justify-content: center;
 }
 
-/* 헤더 숨기기 (K-ECP PORTAL 환영 메시지) */
-#kc-header {
+/* 헤더 숨기기 */
+#kc-header,
+#kc-header-wrapper {
   display: none !important;
 }
 
 /* 로그인 카드 */
 .login-pf-page .card-pf,
-#kc-form {
+#kc-form-login,
+#kc-content,
+#kc-content-wrapper {
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 3rem 2.5rem;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
-  margin: 2rem auto;
+  margin: 0 auto;
 }
 
-/* 제목 - K-ECP 로그인 */
+#kc-form-wrapper {
+  padding: 2.5rem;
+}
+
+/* 제목 */
 #kc-page-title {
   color: var(--kecp-gray-800);
   font-weight: 700;
   font-size: 1.75rem;
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   border: none;
   padding: 0;
 }
@@ -59,15 +63,10 @@ body.login-pf,
   display: none;
 }
 
-/* 폼 그룹 */
-.login-pf .form-group,
-.login-pf .pf-c-form__group {
-  margin-bottom: 1rem;
-}
-
-/* 라벨 숨기기 (placeholder로 대체) */
+/* 라벨 숨기기 */
 .login-pf label.pf-c-form__label,
-.login-pf .control-label {
+.login-pf .control-label,
+#kc-form-login label {
   display: none !important;
 }
 
@@ -75,7 +74,8 @@ body.login-pf,
 .login-pf input[type="text"],
 .login-pf input[type="password"],
 .login-pf input[type="email"],
-.login-pf .pf-c-form-control {
+#kc-form-login input[type="text"],
+#kc-form-login input[type="password"] {
   width: 100%;
   border: 1px solid var(--kecp-gray-200);
   border-radius: 8px;
@@ -84,21 +84,23 @@ body.login-pf,
   color: var(--kecp-gray-700);
   background: white;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
 }
 
-.login-pf input[type="text"]::placeholder,
-.login-pf input[type="password"]::placeholder,
-.login-pf input[type="email"]::placeholder {
+.login-pf input::placeholder {
   color: var(--kecp-gray-400);
 }
 
-.login-pf input[type="text"]:focus,
-.login-pf input[type="password"]:focus,
-.login-pf input[type="email"]:focus,
-.login-pf .pf-c-form-control:focus {
+.login-pf input:focus {
   border-color: var(--kecp-primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   outline: none;
+}
+
+/* 에러 상태 입력 필드 */
+.login-pf input[aria-invalid="true"] {
+  border-color: #ef4444;
 }
 
 /* 비밀번호 표시 버튼 숨기기 */
@@ -108,15 +110,18 @@ body.login-pf,
 }
 
 /* 체크박스 - 아이디 저장 */
-.login-pf .checkbox,
-.login-pf .pf-c-check,
-#rememberMe {
-  margin: 1.25rem 0 1.5rem 0;
+#kc-form-options {
+  margin: 1rem 0 1.5rem 0;
 }
 
-.login-pf .checkbox label,
-.login-pf .pf-c-check__label {
-  display: flex;
+#kc-form-options .checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#kc-form-options .checkbox label {
+  display: flex !important;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
@@ -125,43 +130,37 @@ body.login-pf,
   font-weight: 400;
 }
 
-.login-pf input[type="checkbox"] {
+input[type="checkbox"] {
   width: 16px;
   height: 16px;
   accent-color: var(--kecp-primary);
   cursor: pointer;
-  border-radius: 4px;
 }
 
 /* 로그인 버튼 */
-#kc-login input[type="submit"],
-.login-pf .btn-primary,
-.pf-c-button.pf-m-primary {
-  background: var(--kecp-primary);
-  border: none;
-  border-radius: 25px;
-  padding: 0.9rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
+#kc-login,
+#kc-form-buttons input[type="submit"],
+.login-pf .btn-primary {
+  background: var(--kecp-primary) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  padding: 0.9rem 1.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: white !important;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
-  margin-top: 0.5rem;
+  display: block;
 }
 
-#kc-login input[type="submit"]:hover,
-.login-pf .btn-primary:hover {
-  background: var(--kecp-primary-dark);
+#kc-login:hover,
+#kc-form-buttons input[type="submit"]:hover {
+  background: var(--kecp-primary-dark) !important;
 }
 
 /* 회원가입 버튼 */
-#kc-registration {
-  margin-top: 0.75rem;
-}
-
-#kc-registration a,
-#kc-registration .btn {
+.kecp-register-btn {
   display: block;
   width: 100%;
   background: white;
@@ -174,59 +173,56 @@ body.login-pf,
   text-align: center;
   text-decoration: none;
   transition: all 0.2s ease;
+  margin-top: 0.75rem;
+  box-sizing: border-box;
 }
 
-#kc-registration a:hover {
+.kecp-register-btn:hover {
   background: var(--kecp-gray-50);
   text-decoration: none;
+  color: var(--kecp-primary);
 }
 
-/* 아이디 찾기 | 비밀번호 찾기 링크 */
-#kc-form-options {
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-#kc-form-options .checkbox {
-  display: none;
-}
-
-.kc-form-options-wrapper {
+/* 하단 링크 컨테이너 */
+.kecp-bottom-links {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
   margin-top: 1.5rem;
+  font-size: 0.875rem;
 }
 
-/* 비밀번호 찾기 링크 */
-#kc-form-options a,
-.login-pf a[href*="reset-credentials"],
-span.kc-forgot a {
+.kecp-bottom-links a {
   color: var(--kecp-gray-500);
-  font-size: 0.875rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-#kc-form-options a:hover,
-span.kc-forgot a:hover {
+.kecp-bottom-links a:hover {
   color: var(--kecp-primary);
 }
 
-/* 구분선 */
-.kc-form-options-wrapper::before {
-  content: none;
+.kecp-bottom-links .divider {
+  color: var(--kecp-gray-300);
 }
 
-/* 푸터 정보 숨기기 */
-#kc-info-wrapper {
-  display: none;
+/* 에러 메시지 - 인라인 */
+#input-error,
+.kc-feedback-text,
+span[id="input-error"] {
+  display: block;
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+  padding-left: 0.25rem;
 }
 
-/* 에러 메시지 */
+/* 에러 알림 박스 */
 .alert-error,
 .pf-c-alert.pf-m-danger,
-.kc-feedback-text {
+#kc-content-wrapper .alert {
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #dc2626;
@@ -245,12 +241,29 @@ span.kc-forgot a:hover {
   border-radius: 8px;
   padding: 0.875rem 1rem;
   margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+/* 소셜 로그인 숨기기 */
+#kc-social-providers {
+  display: none;
+}
+
+/* 푸터 정보 숨기기 */
+#kc-info-wrapper,
+#kc-info {
+  display: none;
+}
+
+/* 기존 비밀번호 찾기 링크 숨기기 (커스텀으로 대체) */
+.kc-form-options-wrapper,
+#kc-form-options .kc-form-options-wrapper {
+  display: none;
 }
 
 /* 반응형 */
 @media (max-width: 480px) {
-  .login-pf-page .card-pf {
-    margin: 1rem;
+  #kc-form-wrapper {
     padding: 2rem 1.5rem;
   }
   
@@ -259,16 +272,13 @@ span.kc-forgot a:hover {
   }
 }
 
-/* 비밀번호 찾기 페이지 */
-#kc-reset-password-form .form-group {
-  margin-bottom: 1.5rem;
+/* 비밀번호 찾기/회원가입 페이지 공통 */
+#kc-reset-password-form,
+#kc-register-form {
+  padding: 2.5rem;
 }
 
-/* 회원가입 페이지 */
-#kc-register-form .form-group {
-  margin-bottom: 1rem;
-}
-
+#kc-reset-password-form label,
 #kc-register-form label {
   display: block !important;
   color: var(--kecp-gray-600);
@@ -277,54 +287,9 @@ span.kc-forgot a:hover {
   margin-bottom: 0.5rem;
 }
 
-/* 소셜 로그인 숨기기 */
-#kc-social-providers {
-    display: none;
-}
-
-/* 회원가입 링크 스타일 */
-#kc-registration-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
-#kc-registration {
-    font-size: 14px;
-    color: #666;
-}
-
-#kc-registration a {
-    color: #0066cc;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-#kc-registration a:hover {
-    text-decoration: underline;
-}
-
-/* 아이디/비밀번호 찾기 링크 */
-.kecp-custom-links {
-    text-align: center;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #e5e7eb;
-}
-
-.kecp-custom-links a {
-    color: #666;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-.kecp-custom-links a:hover {
-    color: #0066cc;
-    text-decoration: underline;
-}
-
-/* 뒤로가기 링크 */
-#kc-form-buttons .btn-default,
-.login-pf a.btn-default {
+/* 뒤로가기 버튼 */
+.btn-default,
+a.btn-default {
   display: block;
   width: 100%;
   background: white;
@@ -339,38 +304,6 @@ span.kc-forgot a:hover {
   margin-top: 0.75rem;
 }
 
-/* 추가 링크들 */
-#kc-info .kc-info-message a {
-  color: var(--kecp-gray-500);
-  font-size: 0.875rem;
-}
-
-/* 폼 wrapper */
-#kc-form-wrapper {
-  padding: 0;
-}
-
-/* 로그인 폼 하단 링크 컨테이너 */
-#kc-form-options + div,
-.kc-form-options-wrapper {
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-/* 아이디 찾기, 비밀번호 찾기 링크 스타일 */
-#kc-form-options span {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-#kc-form-options span a {
-  color: var(--kecp-gray-500);
-  font-size: 0.875rem;
-}
-
-#kc-form-options span a + a::before {
-  content: "|";
-  margin-right: 1rem;
-  color: var(--kecp-gray-300);
+.btn-default:hover {
+  background: var(--kecp-gray-50);
 }

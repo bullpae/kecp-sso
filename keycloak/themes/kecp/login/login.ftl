@@ -1,5 +1,4 @@
 <#import "template.ftl" as layout>
-<#-- displayInfo=true로 강제하여 항상 info 섹션 표시 (커스텀 회원가입 링크용) -->
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=true; section>
     <#if section = "header">
         ${msg("loginAccountTitle")}
@@ -8,100 +7,61 @@
             <div id="kc-form-wrapper">
                 <#if realm.password>
                     <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
-                        <#if !usernameHidden??>
-                            <div class="${properties.kcFormGroupClass!}">
-                                <label for="username" class="${properties.kcLabelClass!}">
-                                    <#if !realm.loginWithEmailAllowed>${msg("username")}<#elseif !realm.registrationEmailAsUsername>${msg("usernameOrEmail")}<#else>${msg("email")}</#if>
-                                </label>
-                                <input tabindex="1" id="username" class="${properties.kcInputClass!}" name="username" value="${(login.username!'')}"  type="text" autofocus autocomplete="off"
-                                       aria-invalid="<#if messagesPerField.existsError('username','password')>true</#if>"
-                                       placeholder="${msg('usernamePlaceholder')}"
-                                />
-                                <#if messagesPerField.existsError('username','password')>
-                                    <span id="input-error" class="${properties.kcInputErrorMessageClass!}" aria-live="polite">
-                                        ${kcSanitize(messagesPerField.getFirstError('username','password'))?no_esc}
-                                    </span>
-                                </#if>
+                        <#-- 에러 메시지 -->
+                        <#if messagesPerField.existsError('username','password')>
+                            <div class="alert-error">
+                                ${kcSanitize(messagesPerField.getFirstError('username','password'))?no_esc}
                             </div>
                         </#if>
 
-                        <div class="${properties.kcFormGroupClass!}">
-                            <label for="password" class="${properties.kcLabelClass!}">${msg("password")}</label>
-                            <input tabindex="2" id="password" class="${properties.kcInputClass!}" name="password" type="password" autocomplete="off"
-                                   aria-invalid="<#if messagesPerField.existsError('username','password')>true</#if>"
+                        <#if !usernameHidden??>
+                            <div class="form-group">
+                                <input tabindex="1" id="username" name="username" value="${(login.username!'')}" type="text" autofocus autocomplete="off"
+                                       placeholder="${msg('usernamePlaceholder')}"
+                                />
+                            </div>
+                        </#if>
+
+                        <div class="form-group">
+                            <input tabindex="2" id="password" name="password" type="password" autocomplete="off"
                                    placeholder="${msg('passwordPlaceholder')}"
                             />
                         </div>
 
-                        <div class="${properties.kcFormGroupClass!} ${properties.kcFormSettingClass!}">
+                        <#-- 아이디 저장 체크박스 -->
+                        <#if realm.rememberMe && !usernameHidden??>
                             <div id="kc-form-options">
-                                <#if realm.rememberMe && !usernameHidden??>
-                                    <div class="checkbox">
-                                        <label>
-                                            <#if login.rememberMe??>
-                                                <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" checked> ${msg("rememberMe")}
-                                            <#else>
-                                                <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox"> ${msg("rememberMe")}
-                                            </#if>
-                                        </label>
-                                    </div>
-                                </#if>
+                                <div class="checkbox">
+                                    <label>
+                                        <#if login.rememberMe??>
+                                            <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" checked>
+                                        <#else>
+                                            <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox">
+                                        </#if>
+                                        ${msg("rememberMe")}
+                                    </label>
+                                </div>
                             </div>
-                            <div class="${properties.kcFormOptionsWrapperClass!}">
-                                <#if realm.resetPasswordAllowed>
-                                    <span><a tabindex="5" href="${url.loginResetCredentialsUrl}">${msg("doForgotPassword")}</a></span>
-                                </#if>
-                            </div>
+                        </#if>
+
+                        <#-- 로그인 버튼 -->
+                        <div id="kc-form-buttons">
+                            <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
+                            <input tabindex="4" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
                         </div>
 
-                        <div id="kc-form-buttons" class="${properties.kcFormGroupClass!}">
-                            <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
-                            <input tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="login" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
+                        <#-- 회원가입 버튼 -->
+                        <a tabindex="5" href="http://localhost:4000/register" class="kecp-register-btn">${msg("doRegister")}</a>
+
+                        <#-- 아이디 찾기 | 비밀번호 찾기 -->
+                        <div class="kecp-bottom-links">
+                            <a href="http://localhost:4000/find-id">${msg("findId")}</a>
+                            <span class="divider">|</span>
+                            <a href="http://localhost:4000/forgot-password">${msg("findPassword")}</a>
                         </div>
                     </form>
-                    
-                    <#-- 커스텀 회원가입 링크 (form 아래에 직접 추가) -->
-                    <div id="kc-registration-container" style="text-align: center; margin-top: 24px;">
-                        <div id="kc-registration" style="font-size: 14px; color: #666;">
-                            <span>${msg("noAccount")} <a tabindex="6" href="http://localhost:4000/register" style="color: #0066cc; font-weight: 600; text-decoration: none;">${msg("doRegister")}</a></span>
-                        </div>
-                    </div>
-                    <div id="kc-custom-links" style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
-                        <a href="http://localhost:4000/forgot-password" style="color: #666; font-size: 13px; text-decoration: none;">${msg("findIdPassword")}</a>
-                    </div>
                 </#if>
             </div>
         </div>
-    <#elseif section = "info">
-        <#-- 커스텀 회원가입 링크 -->
-        <div id="kc-registration-container">
-            <div id="kc-registration">
-                <span>${msg("noAccount")} <a tabindex="6" href="http://localhost:4000/register">${msg("doRegister")}</a></span>
-            </div>
-        </div>
-        <#-- 아이디 찾기 / 비밀번호 찾기 링크 -->
-        <div id="kc-custom-links" class="kecp-custom-links">
-            <a href="http://localhost:4000/forgot-password">${msg("findIdPassword")}</a>
-        </div>
-    <#elseif section = "socialProviders">
-        <#if realm.password && social.providers??>
-            <div id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
-                <hr/>
-                <h4>${msg("identity-provider-login-label")}</h4>
-                <ul class="${properties.kcFormSocialAccountListClass!} <#if social.providers?size gt 3>${properties.kcFormSocialAccountListGridClass!}</#if>">
-                    <#list social.providers as p>
-                        <a id="social-${p.alias}" class="${properties.kcFormSocialAccountListButtonClass!} <#if social.providers?size gt 3>${properties.kcFormSocialAccountGridItem!}</#if>"
-                           type="button" href="${p.loginUrl}">
-                            <#if p.iconClasses?has_content>
-                                <i class="${properties.kcCommonLogoIdP!} ${p.iconClasses!}" aria-hidden="true"></i>
-                                <span class="${properties.kcFormSocialAccountNameClass!} kc-social-icon-text">${p.displayName!}</span>
-                            <#else>
-                                <span class="${properties.kcFormSocialAccountNameClass!}">${p.displayName!}</span>
-                            </#if>
-                        </a>
-                    </#list>
-                </ul>
-            </div>
-        </#if>
     </#if>
 </@layout.registrationLayout>
