@@ -279,7 +279,47 @@ span.kc-forgot a:hover {
 
 /* 소셜 로그인 숨기기 */
 #kc-social-providers {
-  display: none;
+    display: none;
+}
+
+/* 회원가입 링크 스타일 */
+#kc-registration-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#kc-registration {
+    font-size: 14px;
+    color: #666;
+}
+
+#kc-registration a {
+    color: #0066cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#kc-registration a:hover {
+    text-decoration: underline;
+}
+
+/* 아이디/비밀번호 찾기 링크 */
+.kecp-custom-links {
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.kecp-custom-links a {
+    color: #666;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.kecp-custom-links a:hover {
+    color: #0066cc;
+    text-decoration: underline;
 }
 
 /* 뒤로가기 링크 */
