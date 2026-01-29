@@ -1,13 +1,13 @@
 <#import "template.ftl" as layout>
 <@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=true; section>
     <#if section = "header">
-        <#-- K-ECP 로고 -->
-        <div class="kecp-logo-container">
-            <img src="${url.resourcesPath}/img/kecp_logo.png" alt="K-ECP KDN Energy Cloud Platform" class="kecp-logo" />
-        </div>
     <#elseif section = "form">
         <div id="kc-form">
             <div id="kc-form-wrapper">
+                <#-- K-ECP 로고 - form 섹션 내에 배치 -->
+                <div class="kecp-logo-container">
+                    <img src="${url.resourcesPath}/img/kecp_logo.png" alt="K-ECP" class="kecp-logo" />
+                </div>
                 <#if realm.password>
                     <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                         <#-- 에러 메시지 -->
