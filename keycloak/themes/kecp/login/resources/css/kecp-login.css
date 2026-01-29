@@ -1,0 +1,336 @@
+/* K-ECP 로그인 테마 - kecp.kdn.com 동일 스타일 */
+
+:root {
+  --kecp-primary: #3b82f6;
+  --kecp-primary-dark: #2563eb;
+  --kecp-primary-light: #60a5fa;
+  --kecp-gray-50: #f9fafb;
+  --kecp-gray-100: #f3f4f6;
+  --kecp-gray-200: #e5e7eb;
+  --kecp-gray-300: #d1d5db;
+  --kecp-gray-400: #9ca3af;
+  --kecp-gray-500: #6b7280;
+  --kecp-gray-600: #4b5563;
+  --kecp-gray-700: #374151;
+  --kecp-gray-800: #1f2937;
+  --kecp-gray-900: #111827;
+}
+
+/* 전체 배경 - 밝은 회색 */
+body.login-pf,
+.login-pf-page {
+  background: var(--kecp-gray-100) !important;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 헤더 숨기기 (K-ECP PORTAL 환영 메시지) */
+#kc-header {
+  display: none !important;
+}
+
+/* 로그인 카드 */
+.login-pf-page .card-pf,
+#kc-form {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 2rem auto;
+}
+
+/* 제목 - K-ECP 로그인 */
+#kc-page-title {
+  color: var(--kecp-gray-800);
+  font-weight: 700;
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  border: none;
+  padding: 0;
+}
+
+/* 언어 선택 숨기기 */
+#kc-locale {
+  display: none;
+}
+
+/* 폼 그룹 */
+.login-pf .form-group,
+.login-pf .pf-c-form__group {
+  margin-bottom: 1rem;
+}
+
+/* 라벨 숨기기 (placeholder로 대체) */
+.login-pf label.pf-c-form__label,
+.login-pf .control-label {
+  display: none !important;
+}
+
+/* 입력 필드 */
+.login-pf input[type="text"],
+.login-pf input[type="password"],
+.login-pf input[type="email"],
+.login-pf .pf-c-form-control {
+  width: 100%;
+  border: 1px solid var(--kecp-gray-200);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: var(--kecp-gray-700);
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.login-pf input[type="text"]::placeholder,
+.login-pf input[type="password"]::placeholder,
+.login-pf input[type="email"]::placeholder {
+  color: var(--kecp-gray-400);
+}
+
+.login-pf input[type="text"]:focus,
+.login-pf input[type="password"]:focus,
+.login-pf input[type="email"]:focus,
+.login-pf .pf-c-form-control:focus {
+  border-color: var(--kecp-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* 비밀번호 표시 버튼 숨기기 */
+.pf-c-button.pf-m-control,
+.kc-form-password-visibility-toggle {
+  display: none !important;
+}
+
+/* 체크박스 - 아이디 저장 */
+.login-pf .checkbox,
+.login-pf .pf-c-check,
+#rememberMe {
+  margin: 1.25rem 0 1.5rem 0;
+}
+
+.login-pf .checkbox label,
+.login-pf .pf-c-check__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--kecp-gray-500);
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.login-pf input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--kecp-primary);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* 로그인 버튼 */
+#kc-login input[type="submit"],
+.login-pf .btn-primary,
+.pf-c-button.pf-m-primary {
+  background: var(--kecp-primary);
+  border: none;
+  border-radius: 25px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+#kc-login input[type="submit"]:hover,
+.login-pf .btn-primary:hover {
+  background: var(--kecp-primary-dark);
+}
+
+/* 회원가입 버튼 */
+#kc-registration {
+  margin-top: 0.75rem;
+}
+
+#kc-registration a,
+#kc-registration .btn {
+  display: block;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--kecp-primary);
+  border-radius: 25px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--kecp-primary);
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+#kc-registration a:hover {
+  background: var(--kecp-gray-50);
+  text-decoration: none;
+}
+
+/* 아이디 찾기 | 비밀번호 찾기 링크 */
+#kc-form-options {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+#kc-form-options .checkbox {
+  display: none;
+}
+
+.kc-form-options-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+/* 비밀번호 찾기 링크 */
+#kc-form-options a,
+.login-pf a[href*="reset-credentials"],
+span.kc-forgot a {
+  color: var(--kecp-gray-500);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+#kc-form-options a:hover,
+span.kc-forgot a:hover {
+  color: var(--kecp-primary);
+}
+
+/* 구분선 */
+.kc-form-options-wrapper::before {
+  content: none;
+}
+
+/* 푸터 정보 숨기기 */
+#kc-info-wrapper {
+  display: none;
+}
+
+/* 에러 메시지 */
+.alert-error,
+.pf-c-alert.pf-m-danger,
+.kc-feedback-text {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* 성공 메시지 */
+.alert-success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .login-pf-page .card-pf {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+  }
+  
+  #kc-page-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* 비밀번호 찾기 페이지 */
+#kc-reset-password-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* 회원가입 페이지 */
+#kc-register-form .form-group {
+  margin-bottom: 1rem;
+}
+
+#kc-register-form label {
+  display: block !important;
+  color: var(--kecp-gray-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* 소셜 로그인 숨기기 */
+#kc-social-providers {
+  display: none;
+}
+
+/* 뒤로가기 링크 */
+#kc-form-buttons .btn-default,
+.login-pf a.btn-default {
+  display: block;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--kecp-gray-300);
+  border-radius: 25px;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--kecp-gray-600);
+  text-align: center;
+  text-decoration: none;
+  margin-top: 0.75rem;
+}
+
+/* 추가 링크들 */
+#kc-info .kc-info-message a {
+  color: var(--kecp-gray-500);
+  font-size: 0.875rem;
+}
+
+/* 폼 wrapper */
+#kc-form-wrapper {
+  padding: 0;
+}
+
+/* 로그인 폼 하단 링크 컨테이너 */
+#kc-form-options + div,
+.kc-form-options-wrapper {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* 아이디 찾기, 비밀번호 찾기 링크 스타일 */
+#kc-form-options span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#kc-form-options span a {
+  color: var(--kecp-gray-500);
+  font-size: 0.875rem;
+}
+
+#kc-form-options span a + a::before {
+  content: "|";
+  margin-right: 1rem;
+  color: var(--kecp-gray-300);
+}

@@ -34,7 +34,8 @@ services:
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak_dev_123}
       # Server
-      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-localhost}
+      KC_HOSTNAME_URL: ${KEYCLOAK_HOSTNAME_URL:-http://localhost:8180}
+      KC_HOSTNAME_ADMIN_URL: ${KEYCLOAK_HOSTNAME_ADMIN_URL:-http://localhost:8180}
       KC_HTTP_ENABLED: "true"
       KC_PROXY_HEADERS: xforwarded
       # Features
@@ -54,12 +55,10 @@ services:
       keycloak-db:
         condition: service_healthy
     command: start-dev --import-realm
+    # Keycloak 24 이미지에 curl/wget이 없어서 healthcheck 비활성화
+    # 호스트에서 curl http://localhost:8180/health/ready 로 수동 확인 가능
     healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health/ready || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+      disable: true
     restart: unless-stopped
 
 volumes:

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5cff"/>
+      <stop offset="100%" style="stop-color:#00c8ff"/>
+    </linearGradient>
+  </defs>
+  <!-- K-ECP M�� -->
+  <text x="10" y="35" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="url(#logoGradient)">
+    K-ECP
+  </text>
+  <!-- Portal M�� -->
+  <text x="110" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="normal" fill="#64748b">
+    Portal
+  </text>
+</svg>
