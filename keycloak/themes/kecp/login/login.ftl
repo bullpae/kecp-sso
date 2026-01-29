@@ -59,6 +59,16 @@
                             <input tabindex="4" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="login" id="kc-login" type="submit" value="${msg("doLogIn")}"/>
                         </div>
                     </form>
+                    
+                    <#-- 커스텀 회원가입 링크 (form 아래에 직접 추가) -->
+                    <div id="kc-registration-container" style="text-align: center; margin-top: 24px;">
+                        <div id="kc-registration" style="font-size: 14px; color: #666;">
+                            <span>${msg("noAccount")} <a tabindex="6" href="http://localhost:4000/register" style="color: #0066cc; font-weight: 600; text-decoration: none;">${msg("doRegister")}</a></span>
+                        </div>
+                    </div>
+                    <div id="kc-custom-links" style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+                        <a href="http://localhost:4000/forgot-password" style="color: #666; font-size: 13px; text-decoration: none;">${msg("findIdPassword")}</a>
+                    </div>
                 </#if>
             </div>
         </div>
