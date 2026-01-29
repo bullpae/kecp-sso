@@ -1,5 +1,6 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
+<#-- displayInfo=true로 강제하여 항상 info 섹션 표시 (커스텀 회원가입 링크용) -->
+<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=true; section>
     <#if section = "header">
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
