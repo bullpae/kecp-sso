@@ -4,6 +4,18 @@
 
 K-ECP SSO is the centralized authentication system for K-ECP ecosystem services.
 
+```mermaid
+flowchart TB
+    subgraph SSO["K-ECP SSO"]
+        KC["🔐 Keycloak 24.0"]
+        DB["🗄️ PostgreSQL 15"]
+    end
+    
+    KC --> DB
+    
+    style SSO fill:#fff3e0,stroke:#f57c00
+```
+
 | Item | Value |
 |------|-------|
 | Purpose | OAuth2/OIDC authentication server |
@@ -47,6 +59,21 @@ open http://localhost:8180/admin
 
 ## Registered Clients
 
+```mermaid
+flowchart LR
+    subgraph Clients["Registered Clients"]
+        C1["k-ecp-main<br/>:8080"]
+        C2["k-ecp-marketplace<br/>:5000"]
+        C3["k-ecp-support<br/>:3001"]
+        C4["k-ecp-kohub<br/>:3002"]
+    end
+    
+    style C1 fill:#e8f5e9,stroke:#388e3c
+    style C2 fill:#e8f5e9,stroke:#388e3c
+    style C3 fill:#e3f2fd,stroke:#1976d2
+    style C4 fill:#e3f2fd,stroke:#1976d2
+```
+
 | Client ID | Service | Type |
 |-----------|---------|------|
 | k-ecp-main | user-console (Spring) | Confidential |
@@ -64,6 +91,17 @@ open http://localhost:8180/admin
 ## Common Tasks
 
 ### Add new client
+
+```mermaid
+flowchart LR
+    A["1. Keycloak Admin<br/>Create Client"] --> B["2. Update<br/>realm.json"]
+    B --> C["3. Document in<br/>client-integration.md"]
+    
+    style A fill:#e3f2fd,stroke:#1976d2
+    style B fill:#fff3e0,stroke:#f57c00
+    style C fill:#e8f5e9,stroke:#388e3c
+```
+
 1. Keycloak Admin Console → Clients → Create
 2. Update `keycloak/import/k-ecp-realm.json`
 3. Document in `docs/client-integration.md`
@@ -80,6 +118,20 @@ open http://localhost:8180/admin
 
 ## Development Workflow
 
+```mermaid
+flowchart LR
+    A["1. Modify"] --> B["2. Test"]
+    B --> C["3. Verify"]
+    C --> D["4. Commit"]
+    D --> E["5. Push"]
+    
+    style A fill:#e3f2fd,stroke:#1976d2
+    style B fill:#fff3e0,stroke:#f57c00
+    style C fill:#e8f5e9,stroke:#388e3c
+    style D fill:#f3e5f5,stroke:#7b1fa2
+    style E fill:#fce4ec,stroke:#c2185b
+```
+
 1. **Modify**: Edit realm JSON or compose files
 2. **Test**: `podman-compose down && podman-compose up -d`
 3. **Verify**: `./scripts/health-check.sh`
@@ -91,6 +143,7 @@ open http://localhost:8180/admin
 - Commit messages: 한글 허용
 - Scripts: Bash with error handling (`set -e`)
 - JSON: 2-space indent
+- Diagrams: **Mermaid 사용**
 
 ## Integration
 

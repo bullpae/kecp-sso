@@ -4,21 +4,32 @@ K-ECP SSO(Keycloak)를 각 서비스에서 사용하기 위한 연동 가이드�
 
 ## 개요
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      K-ECP SSO                               │
-│                    (Keycloak Server)                        │
-│                                                              │
-│  Realm: k-ecp                                               │
-│  ├── k-ecp-main        (Confidential Client)                │
-│  ├── k-ecp-marketplace (Confidential Client)                │
-│  ├── k-ecp-support     (Public Client + PKCE)               │
-│  └── k-ecp-kohub       (Public Client + PKCE)               │
-└─────────────────────────────────────────────────────────────┘
-         │           │           │           │
-         ▼           ▼           ▼           ▼
-    user-console  marketplace  KustHub    Kohub
-    (Spring)      (Flask)      (React)    (React)
+```mermaid
+flowchart TB
+    subgraph Keycloak["🔐 Keycloak Server"]
+        subgraph Realm["Realm: k-ecp"]
+            C1["k-ecp-main<br/>🔒 Confidential"]
+            C2["k-ecp-marketplace<br/>🔒 Confidential"]
+            C3["k-ecp-support<br/>🔓 Public (PKCE)"]
+            C4["k-ecp-kohub<br/>🔓 Public (PKCE)"]
+        end
+    end
+    
+    subgraph Apps["Applications"]
+        A1["🏢 user-console<br/>(Spring Boot)"]
+        A2["🛒 marketplace<br/>(Flask)"]
+        A3["📞 KustHub<br/>(React SPA)"]
+        A4["⚙️ Kohub<br/>(React SPA)"]
+    end
+    
+    C1 <--> A1
+    C2 <--> A2
+    C3 <--> A3
+    C4 <--> A4
+    
+    style Keycloak fill:#fff3e0,stroke:#f57c00
+    style Realm fill:#e8f5e9,stroke:#388e3c
+    style Apps fill:#e3f2fd,stroke:#1976d2
 ```
 
 ## 공통 정보
@@ -29,7 +40,31 @@ K-ECP SSO(Keycloak)를 각 서비스에서 사용하기 위한 연동 가이드�
 | Realm | k-ecp | k-ecp |
 | OIDC Discovery | /realms/k-ecp/.well-known/openid-configuration | 동일 |
 
+---
+
 ## 1. Spring Boot 연동 (user-console)
+
+### 연동 구조
+
+```mermaid
+flowchart LR
+    subgraph Spring["Spring Boot"]
+        SC["Security Config"]
+        OC["OAuth2 Client"]
+        AC["Admin Client"]
+    end
+    
+    subgraph KC["Keycloak"]
+        Auth["Authorization"]
+        Admin["Admin API"]
+    end
+    
+    OC -->|로그인| Auth
+    AC -->|사용자 동기화| Admin
+    
+    style Spring fill:#e8f5e9,stroke:#388e3c
+    style KC fill:#fff3e0,stroke:#f57c00
+```
 
 ### 1.1 의존성 추가
 
@@ -64,7 +99,29 @@ spring:
             issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/k-ecp
 ```
 
+---
+
 ## 2. Flask 연동 (marketplace)
+
+### 연동 구조
+
+```mermaid
+flowchart LR
+    subgraph Flask["Flask App"]
+        AB["Authlib"]
+        Session["Session"]
+    end
+    
+    subgraph KC["Keycloak"]
+        Auth["Authorization"]
+    end
+    
+    AB -->|OAuth2| Auth
+    Auth -->|Token| Session
+    
+    style Flask fill:#e3f2fd,stroke:#1976d2
+    style KC fill:#fff3e0,stroke:#f57c00
+```
 
 ### 2.1 의존성
 
@@ -99,7 +156,38 @@ oauth.register(
 )
 ```
 
+---
+
 ## 3. React SPA 연동 (KustHub, Kohub)
+
+### 연동 구조
+
+```mermaid
+flowchart LR
+    subgraph React["React SPA"]
+        OIDC["react-oidc-context"]
+        Auth["AuthContext"]
+        API["API Client"]
+    end
+    
+    subgraph KC["Keycloak"]
+        Login["Login Page"]
+        Token["Token Endpoint"]
+    end
+    
+    subgraph Backend["Backend API"]
+        RS["Resource Server"]
+    end
+    
+    OIDC -->|PKCE Flow| Login
+    Login -->|Access Token| Auth
+    Auth -->|Bearer Token| API
+    API -->|JWT| RS
+    
+    style React fill:#61dafb,stroke:#21232a
+    style KC fill:#fff3e0,stroke:#f57c00
+    style Backend fill:#e8f5e9,stroke:#388e3c
+```
 
 ### 3.1 의존성
 
@@ -145,7 +233,25 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 ```
 
+---
+
 ## 4. Backend Resource Server (JWT 검증)
+
+### JWT 검증 흐름
+
+```mermaid
+sequenceDiagram
+    participant Client as 📱 Client
+    participant API as 🖥️ API Server
+    participant KC as 🔐 Keycloak
+    
+    Client->>API: API 요청 + Bearer Token
+    API->>KC: JWKS 조회 (캐싱)
+    KC-->>API: 공개키
+    API->>API: JWT 서명 검증
+    API->>API: Claims 추출 (roles)
+    API-->>Client: 응답
+```
 
 ### 4.1 Spring Boot
 
@@ -160,7 +266,34 @@ spring:
           jwk-set-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/k-ecp/protocol/openid-connect/certs
 ```
 
+---
+
 ## 5. 역할(Role) 매핑
+
+```mermaid
+flowchart TB
+    subgraph KC["Keycloak Roles"]
+        R1["admin"]
+        R2["operator"]
+        R3["partner"]
+        R4["member"]
+    end
+    
+    subgraph Apps["Application Permissions"]
+        P1["시스템 관리<br/>모든 권한"]
+        P2["운영 권한<br/>서비스 관리"]
+        P3["파트너 권한<br/>제한된 관리"]
+        P4["일반 권한<br/>기본 사용"]
+    end
+    
+    R1 --> P1
+    R2 --> P2
+    R3 --> P3
+    R4 --> P4
+    
+    style KC fill:#fff3e0,stroke:#f57c00
+    style Apps fill:#e3f2fd,stroke:#1976d2
+```
 
 | Keycloak Role | 설명 | 대상 서비스 |
 |---------------|------|-------------|
@@ -169,7 +302,28 @@ spring:
 | partner | 파트너사 | marketplace |
 | member | 일반 회원 | 모든 서비스 |
 
+---
+
 ## 6. 문제 해결
+
+### 일반적인 오류와 해결 방법
+
+```mermaid
+flowchart TD
+    E1["CORS 오류"] --> S1["Keycloak Client의<br/>Web Origins 확인"]
+    E2["redirect_uri 오류"] --> S2["Valid redirect URIs에<br/>콜백 URL 추가"]
+    E3["토큰 검증 실패"] --> S3["issuer-uri 설정 확인<br/>시계 동기화 (NTP)"]
+    E4["역할 인식 안됨"] --> S4["realm_access.roles<br/>클레임 확인"]
+    
+    style E1 fill:#ffcdd2,stroke:#c62828
+    style E2 fill:#ffcdd2,stroke:#c62828
+    style E3 fill:#ffcdd2,stroke:#c62828
+    style E4 fill:#ffcdd2,stroke:#c62828
+    style S1 fill:#c8e6c9,stroke:#2e7d32
+    style S2 fill:#c8e6c9,stroke:#2e7d32
+    style S3 fill:#c8e6c9,stroke:#2e7d32
+    style S4 fill:#c8e6c9,stroke:#2e7d32
+```
 
 ### CORS 오류
 - Keycloak Admin Console → Clients → Web Origins 확인

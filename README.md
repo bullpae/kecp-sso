@@ -6,25 +6,60 @@ K-ECP 생태계 통합 인증 시스템 (Keycloak 기반)
 
 K-ECP 서비스들(user-console, marketplace, KustHub, Kohub)에서 단일 로그인(SSO)을 제공하는 인증 시스템입니다.
 
+```mermaid
+flowchart TB
+    subgraph SSO["🔐 K-ECP SSO (Keycloak)"]
+        KC["Keycloak<br/>:8180"]
+    end
+    
+    subgraph Services["K-ECP 서비스"]
+        UC["🏢 user-console<br/>(Spring)<br/>:8080"]
+        MP["🛒 marketplace<br/>(Flask)<br/>:5000"]
+        KH["📞 KustHub<br/>(React)<br/>:3001"]
+        KO["⚙️ Kohub<br/>(React)<br/>:3002"]
+        FT["🔮 Future<br/>Services"]
+    end
+    
+    KC --> UC
+    KC --> MP
+    KC --> KH
+    KC --> KO
+    KC -.-> FT
+    
+    style SSO fill:#fff3e0,stroke:#f57c00
+    style Services fill:#e3f2fd,stroke:#1976d2
 ```
-                    ┌─────────────────┐
-                    │   K-ECP SSO     │
-                    │   (Keycloak)    │
-                    │   :8180         │
-                    └────────┬────────┘
-                             │
-        ┌──────────┬─────────┼─────────┬──────────┐
-        │          │         │         │          │
-        ▼          ▼         ▼         ▼          ▼
-   user-console  market   KustHub   Kohub     (future)
-   (Spring)     (Flask)  (React)   (React)
+
+## 인증 흐름 (Authorization Code Flow + PKCE)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User as 👤 사용자
+    participant App as 📱 앱 (SPA/Server)
+    participant KC as 🔐 Keycloak
+    
+    User->>App: 서비스 접속
+    App-->>User: 로그인 필요
+    User->>KC: Keycloak 로그인 페이지
+    KC-->>User: 로그인 폼
+    User->>KC: ID/Password 입력
+    KC-->>User: Authorization Code
+    User->>App: Code 전달
+    App->>KC: Token 교환 (code + PKCE)
+    KC-->>App: Access Token + Refresh Token
+    App-->>User: 서비스 제공
+    
+    Note over User,KC: 이후 API 호출 시 Access Token 사용
 ```
 
 ## 기술 스택
 
-- **Keycloak 24.0**: OAuth2/OIDC 인증 서버
-- **PostgreSQL 15**: Keycloak 데이터 저장소
-- **Podman/Docker Compose**: 컨테이너 오케스트레이션
+| 구성요소 | 기술 | 버전 |
+|----------|------|------|
+| 인증 서버 | Keycloak | 24.0 |
+| 데이터베이스 | PostgreSQL | 15 |
+| 컨테이너 | Podman/Docker Compose | - |
 
 ## 빠른 시작
 
@@ -55,6 +90,39 @@ docker-compose up -d
 
 ```bash
 ./scripts/health-check.sh
+```
+
+## Realm 구성
+
+```mermaid
+flowchart TB
+    subgraph Realm["🏰 Realm: k-ecp"]
+        subgraph Clients["📱 Clients"]
+            C1["k-ecp-main<br/>Confidential"]
+            C2["k-ecp-marketplace<br/>Confidential"]
+            C3["k-ecp-support<br/>Public + PKCE"]
+            C4["k-ecp-kohub<br/>Public + PKCE"]
+        end
+        
+        subgraph Roles["🎭 Realm Roles"]
+            R1["admin"]
+            R2["operator"]
+            R3["partner"]
+            R4["member"]
+        end
+        
+        subgraph Groups["👥 Groups"]
+            G1["K-ECP Admins"]
+            G2["Operators"]
+            G3["Partners"]
+            G4["Members"]
+        end
+    end
+    
+    style Realm fill:#e8f5e9,stroke:#388e3c
+    style Clients fill:#e3f2fd,stroke:#1976d2
+    style Roles fill:#fff3e0,stroke:#f57c00
+    style Groups fill:#f3e5f5,stroke:#7b1fa2
 ```
 
 ## 등록된 클라이언트
@@ -103,6 +171,25 @@ kecp-sso/
 ```
 
 ## 운영 환경 배포
+
+```mermaid
+flowchart LR
+    subgraph Dev["개발 환경"]
+        D1["compose.yml"]
+        D2["HTTP :8180"]
+    end
+    
+    subgraph Prod["운영 환경"]
+        P1["compose.prod.yml"]
+        P2["HTTPS :8443"]
+        P3["SSL 인증서"]
+    end
+    
+    Dev -->|배포| Prod
+    
+    style Dev fill:#e3f2fd,stroke:#1976d2
+    style Prod fill:#e8f5e9,stroke:#388e3c
+```
 
 ```bash
 # 1. SSL 인증서 준비
