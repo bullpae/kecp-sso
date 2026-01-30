@@ -127,21 +127,40 @@ flowchart TB
 
 ## 등록된 클라이언트
 
-| Client ID | 서비스 | 유형 | 포트 |
-|-----------|--------|------|------|
-| k-ecp-main | user-console | Confidential | 8080 |
-| k-ecp-marketplace | marketplace | Confidential | 5000 |
-| k-ecp-support | KustHub | Public (PKCE) | 3001 |
-| k-ecp-kohub | Kohub | Public (PKCE) | 3002 |
+| Client ID | 서비스 | 유형 | 포트 | 비고 |
+|-----------|--------|------|------|------|
+| k-ecp-main | user-console | Confidential | 8080 | |
+| k-ecp-marketplace | marketplace | Confidential | 5000 | |
+| k-ecp-support | KustHub | Public (PKCE) | 4000 | 프론트엔드 SSO 로그인 |
+| kusthub-frontend | KustHub | Public + Direct Access | 4000 | 비밀번호 검증용 |
+| k-ecp-kohub | Kohub | Public (PKCE) | 3002 | |
+
+> **Note**: `kusthub-frontend` 클라이언트는 프로필 관리에서 비밀번호 재확인 시 Direct Access Grants를 사용합니다.
 
 ## Realm 역할
 
-| 역할 | 설명 |
-|------|------|
-| admin | 시스템 관리자 |
-| operator | 운영자 |
-| partner | 파트너사 |
-| member | 일반 회원 |
+| 역할 | 설명 | 권한 |
+|------|------|------|
+| admin | 시스템 관리자 | 시스템 전반 설정 및 모니터링 |
+| operator | 운영자 (접수자) | 요청 분류 및 담당자 지정 |
+| partner | 파트너 (담당자) | 요청 처리 및 결과 입력 |
+| customer_admin | 고객 관리자 | 고객사 사용자 관리, 요청 모니터링 |
+| member | 일반 회원 (고객) | 요청 생성/조회, 공지 열람 |
+
+## User Profile 속성
+
+KustHub 고객정보 관리를 위해 추가된 사용자 정의 속성:
+
+| 속성 | 설명 | 필수 |
+|------|------|------|
+| phoneNumber | 휴대폰 번호 | 선택 |
+| company | 회사/기관 | 선택 |
+| department | 부서 | 선택 |
+| position | 직위 | 선택 |
+| receiveSms | SMS 수신 동의 | 선택 |
+| receiveEmail | 이메일 수신 동의 | 선택 |
+
+> **설정 방법**: Keycloak Admin Console → Realm Settings → User Profile에서 속성을 추가합니다.
 
 ## 테스트 계정
 
